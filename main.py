@@ -13,7 +13,7 @@ class CoffeeApp(QtWidgets.QMainWindow):
         self.tableWidget.cellDoubleClicked.connect(self.edit_coffee)
 
     def load_data(self):
-        connection = sqlite3.connect('coffee.sqlite')
+        connection = sqlite3.connect('coffee.db')
         cursor = connection.cursor()
         cursor.execute("SELECT * FROM coffee")
         coffee_data = cursor.fetchall()
@@ -51,7 +51,7 @@ class AddEditCoffeeForm(QtWidgets.QDialog):
         self.pushButton.clicked.connect(self.save_coffee_data)
 
     def load_coffee_data(self):
-        connection = sqlite3.connect('coffee.sqlite')
+        connection = sqlite3.connect('coffee.db')
         cursor = connection.cursor()
         cursor.execute("SELECT * FROM coffee WHERE id=?", (self.coffee_id,))
         coffee_data = cursor.fetchone()
