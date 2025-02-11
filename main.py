@@ -72,7 +72,7 @@ class AddEditCoffeeForm(QtWidgets.QDialog):
         price = self.lineEditPrice.text()
         volume = self.lineEditVolume.text()
 
-        connection = sqlite3.connect('coffee.sqlite')
+        connection = sqlite3.connect('coffee.db')
         cursor = connection.cursor()
 
         if self.coffee_id:
