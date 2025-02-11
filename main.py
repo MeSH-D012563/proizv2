@@ -41,7 +41,12 @@ class CoffeeApp(QtWidgets.QMainWindow):
 class AddEditCoffeeForm(QtWidgets.QDialog):
     def __init__(self, parent, coffee_id=None):
         super().__init__(parent)
-        uic.loadUi('addEditCoffeeForm.ui', self)
+        try:
+            uic.loadUi('addEditCoffeeForm.ui', self)
+        except Exception as e:
+            QMessageBox.critical(self, "Error", f"Failed to load UI: {e}")
+            return
+
         self.coffee_id = coffee_id
         self.parent = parent
 
@@ -57,12 +62,13 @@ class AddEditCoffeeForm(QtWidgets.QDialog):
         coffee_data = cursor.fetchone()
         connection.close()
 
-        self.lineEditName.setText(coffee_data[1])
-        self.lineEditRoast.setText(coffee_data[2])
-        self.lineEditGround.setText(coffee_data[3])
-        self.lineEditTaste.setText(coffee_data[4])
-        self.lineEditPrice.setText(str(coffee_data[5]))
-        self.lineEditVolume.setText(str(coffee_data[6]))
+        if coffee_data:
+            self.lineEditName.setText(coffee_data[1])
+            self.lineEditRoast.setText(coffee_data[2])
+            self.lineEditGround.setText(coffee_data[3])
+            self.lineEditTaste.setText(coffee_data[4])
+            self.lineEditPrice.setText(str(coffee_data[5]))
+            self.lineEditVolume.setText(str(coffee_data[6]))
 
     def save_coffee_data(self):
         name = self.lineEditName.text()
